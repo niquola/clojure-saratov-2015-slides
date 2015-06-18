@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<title>clojure</title>
+
+<meta name="description" content="Presentation about clojure">
+<meta name="author" content="Nikolay Ryzhikov">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+<!-- Code syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+<!-- Printing and PDF exports -->
+<script>
+var link = document.createElement( 'link' );
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]><script src="lib/js/html5shiv.js"></script><![endif]-->
+<style>
+
+ @font-face {
+  font-family: Fira;
+  src: url(fira.ttf);
+}
+body {
+  font-family: Fira !important;
+}
+.reveal pre {
+  border: 1px solid #ccc;
+  box-shadow: none !important;
+}
+.reveal pre code {
+  font-family: Fira;
+  background: white !important;
+  color: black;
+  padding: 30px;
+  border: none !important;
+  box-shadow: none !important;
+}
+img {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <h3>(clojure)</h3>
+      <hr/>
+      <p><small>Created by <a href="http://github.com/niquola">niquola</a> / <a href="http://twitter.com/niquola">@niquola</a></small></p>
+    </section>
+
+    <section>
+      <h5>
+        Nikolay Ryzhikov
+        <img src="healthsamurai.png" style="margin: 0; height: 40px; border:none; background:transparent;box-shadow: none;"/>
+        <br/>
+        <a href="http://github.com/niquola">
+          <i class="fa fa-github"></i>
+        </a>
+        <a href="http://twitter.com/niquola">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a href="https://plus.google.com/u/0/+%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%D0%A0%D1%8B%D0%B6%D0%B8%D0%BA%D0%BE%D0%B2">
+          <i class="fa fa-google-plus"></i>
+        </a>
+        <a href="https://www.facebook.com/nicola.ryzhikov">
+          <i class="fa fa-facebook"></i>
+        </a>
+      </h5>
+        <img src="niquola.jpg" style="border:none; width: 70%; box-shado: none; background: transparent;"/>
+      <hr/>
+    </section>
+
+    <section data-markdown><script type="text/template">
+      ### хороший инженер
+      ----
+      решает проблему
+
+      любыми средствами
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### мастер
+      ----
+      решает проблему эффективно
+
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### лишь немногие
+      ----
+      видят проблему и возможности
+
+      там где ее не видят другие
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### Эффективность
+      ----
+      способность достигать желаемого результата с наименьшей затратой времени и усилий
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### Подход и Стиль
+      ----
+      У мастера всегда есть свой подчерк:
+
+      * как он подходит к работе
+      * как он ее делает
+      * как завершает
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### Хороший Инструмент
+      ----
+      * не сделает работу за вас
+      * но поможет ее сделать лучше и быстрее
+      * может вдохновить
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ![](./clojure.png)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      1. functional
+      1. LISP
+      1. on JVM
+      1. for concurrency
+      1. by Rich Hickey
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### Clojure
+      ------
+
+      * Academi
+      * Enterprise
+      * Hipster
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ## Functional
+      ## Programming?
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ## чистые функции
+      ---
+      &
+
+      ---
+
+      ### функции высших порядков
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### чистые функции
+      ---
+
+      * теже параметры - тотже ответ
+      * на других не влияет
+
+      ---
+
+      ## sin(&#960;/2) => 1
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### чистые функции
+      ---
+
+      оперируют значениями (value)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### значение
+      ---
+      * неизменное
+      * чистая идея
+      * операция порождают новое значение
+
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### чистые функции: свойства
+      ---
+
+      * на них можно расчитывать
+      * легко предсказуемы
+      * не злопамятны
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ```js
+      function fullName(first, middle, last){
+         return first
+         + (middle[0] ? ( ' ' + middle[0]) : '')
+         + ','
+         + last;
+      }
+
+      fullName('Nicola', 'Nikolaevich', 'Ryzhikov')
+      //=> Nicola N. Ryzhikov
+      ```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### чистые функции: свойства
+      ---
+
+      * легко понимать  (простота)
+      * легко тестировать (надежность)
+      * легко параллелить  (share nothing)
+      * легко переиспользовать (reuse)
+      * откладывать выполнение (ленивость)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### чистые функции:
+      ---
+      #### идеальные компоненты
+
+      никаких скрытых зависимостей
+
+      все явно
+
+      ---
+
+      [out of the tar pit](http://shaffner.us/cs/papers/tarpit.pdf)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      #### Ну с числами и строчками понятно
+
+      ### А массивы, словари?
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      ### Копировать?
+      ```js
+      function myfn(somearray){
+         var copy = somearray.clone()
+         return copy.push('ups');
+      }
+      ```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+      Иммутабельные, Персистентные
+
+      структуры данных
+
+      с гарантиями O(1)
+
+      ```clojure
+      (assoc map :key "value")
+      ```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Префиксные деревья (trie)
+
+     ![](prefix.png)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Let's use hash!
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Array Mapped Trie
+     ![](naiv-hamt.svg)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Bitmap Trick
+     ![](hamt.svg)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Persistence
+     ![](persist.png)
+     #### structure sharing & path copying
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     #### Функции высших порядков
+
+     ---
+
+     можно передвать функции в функции
+     и возвращать функции из функций
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Инструмент абстракции
+
+     * передать алгоритм в алгоритм
+     * сконструировать алгоритм
+
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Работа с коллекциями
+
+     ```clojure
+     (map :name users) => ["nicola" "pavel" "marat"]
+
+     (filter odd? (range 10)) => [1 3 5 7 9]
+
+     (reduce + 0 (range 100)) => 100
+     (reduce * 1 (range 10)) => 10!
+     (def map (fn [f coll] (reduce #(conj (f %)) [] coll)))
+     ```
+
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Middleware
+
+     ```js
+function handler(x){ return 1/x; }
+
+function wrap(fn){
+ return function(x){
+    if(x == 0){ return null; }
+    else{ return fn(x); }
+ }
+}
+
+var stack = wrap(handler);
+
+stack(1) => 1
+stack(2) => 1/2
+stack(0) => null
+     ```
+
+chain of responsibility
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Middleware
+
+     ```js
+(defn handler [x] (/ 1 x))
+(defn wrap [f]
+  (fn [x]
+    (if (< x 0) nil (f x))))
+
+(def stack (wrap handler))
+(stack 1) => 1
+(stack 2) => 1/2
+(stack 0) => null
+     ```
+
+chain of responsibility
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     ### Transducers
+     ```clojure
+(reduce (fn [acc x] (+ acc x)) 0 [1 2 3 4])
+(reduce (fn [acc x] (conj acc (+ x 1)) [] [1 2 3 4])
+
+(def transducer
+  (fn [f]
+    (fn [acc c] (if cond (f acc c) acc))))
+
+
+(def trans
+ (-> (map inc) (filter odd?) (take 5)))
+
+(trans (range 100)) => [1 3 5 7 9]
+     ```
+
+    </script></section>
+
+    <section>
+      <h3>Thx</h3>
+      <hr/>
+      <h2>Q?</h2>
+    </section>
+  </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+controls: true,
+progress: true,
+history: true,
+center: true,
+
+transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+// Optional reveal.js plugins
+dependencies: [
+{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+{ src: 'plugin/zoom-js/zoom.js', async: true },
+{ src: 'plugin/notes/notes.js', async: true }
+]
+});
+
+</script>
+
+</body>
+</html>
