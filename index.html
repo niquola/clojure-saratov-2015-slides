@@ -93,54 +93,10 @@ img {
     </section>
 
     <section data-markdown><script type="text/template">
-      ### хороший инженер
-      ----
-      решает проблему
-
-      любыми средствами
-    </script></section>
-
-    <section data-markdown><script type="text/template">
-      ### мастер
-      ----
-      решает проблему эффективно
-
-    </script></section>
-
-    <section data-markdown><script type="text/template">
-      ### лишь немногие
-      ----
-      видят проблему и возможности
-
-      там где ее не видят другие
-    </script></section>
-
-    <section data-markdown><script type="text/template">
-      ### Эффективность
-      ----
-      способность достигать желаемого результата с наименьшей затратой времени и усилий
-    </script></section>
-
-    <section data-markdown><script type="text/template">
-      ### Подход и Стиль
-      ----
-      У мастера всегда есть свой подчерк:
-
-      * как он подходит к работе
-      * как он ее делает
-      * как завершает
-    </script></section>
-
-    <section data-markdown><script type="text/template">
-      ### Хороший Инструмент
-      ----
-      * не сделает работу за вас
-      * но поможет ее сделать лучше и быстрее
-      * может вдохновить
-    </script></section>
-
-    <section data-markdown><script type="text/template">
       ![](./clojure.png)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
     </script></section>
 
     <section data-markdown><script type="text/template">
@@ -150,6 +106,201 @@ img {
       1. for concurrency
       1. by Rich Hickey
     </script></section>
+
+<section data-markdown><script type="text/template">
+What is LISP?
+</script></section>
+
+<section data-markdown><script type="text/template">
+```clojure
+(= (type nil) nil)
+
+(= (type 100) java.lang.Long)
+
+(= (type 0.1) java.lang.Double)
+
+(= (type "hi") java.lang.String)
+
+(= (type #"^a.*") java.util.regex.Pattern)
+
+(= (type :orange) clojure.lang.Keyword)
+
+(= (type 'apple) clojure.lang.Symbol)
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+```clojure
+(= (type '(1 2 3))
+   clojure.lang.PersistentList)
+
+(= (type [1 2 3])
+   clojure.lang.PersistentVector)
+
+(= (type {:a 1 :b 2})
+   clojure.lang.PersistentArrayMap)
+
+(= (type #{1 2 3})
+   clojure.lang.PersistentHashSet)
+```
+</script>
+</section>
+
+<section>
+<h3>Pure Functional DataStructures<h3>
+<hr/>
+<img src="persistent-dt.png" style="background: white;"/>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (ast)
+```javascript
+function myfn(x,y)  | ["function", "myfn",
+{                   |  ["x", "y"],
+  return            |   ["+",
+    x*x + y*y;      |    ["*", "x", "x"],
+}                   |    ["*", "y", "y"]]]
+                    |
+myfn(3,6)           | ["myfn", "3", "6"]
+
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (ast)
+
+```javascript
+["function", "myfn",  |  [function myfn
+ ["x", "y"],          |    [x y]
+ ["+",                |    [+
+   ["*", "x", "x"],   |      [* x x]
+   ["*", "y", "y"]]]  |      [* y y]]]
+                      |
+["myfn", "3", "6"]    |  [myfn 3 6]
+
+```
+</script></section>
+
+<section data-markdown><script type="text/template">
+## (hello clojure)
+```clojure
+[function myfn [x y]  |  (defn myfn [x y]
+  [+ [* x x]          |    (+ (* x x)
+     [* y y]]]        |       (* y y)))
+                      |
+[myfn 3 6]            |   (myfn 3 6)
+
+```
+</script>
+</section>
+
+<section data-markdown><script type="text/template">
+## punctuation
+```javascript
+function myfn(x,y){  | (defn myfn [x y]                |  ["x", "y"],
+ return  x*x + y*y;  |   (+ (* x x)
+};                   |      (* y y)))
+                     |
+myfn(3,6)            | (myfn 3 6)
+// 12 [{;,}]         | ;; 12 ([])
+
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (forms & s-expressions)
+```clojure
+(special-form args)
+
+(function-call args)
+
+(macros-call args)
+ ```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (special-forms)
+```clojure
+(def symbol init?)
+(if test then else?)
+(do exprs*)
+(let [bindings* ] exprs*)
+(quote form)
+(var symbol)
+(fn name? [params* ] exprs*)
+(loop [bindings* ] exprs*)
+(recur exprs*)
+(throw expr)
+(try expr* catch-clause* finally-clause?)
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (defn functions)
+```clojure
+(defn myfn [& args]
+  (reduce
+    #(+ %1 (* %2 %2)))
+    0 args))
+
+(myfn 1 2 3 4 5)
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (defmacro macros)
+```
+(defmacro unless [pred f1 f2]
+ `(if (not (~pred))
+    ~f1
+    ~f2))
+
+(unless (> 5 (rand 10))
+  "ok"
+  "not ok"))
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (most of useful forms)
+```clojure
+(defn myfn [args] body) ;; (def myfn (fn []..))
+
+(cond pred1 expr1  ;; (if pred1 expr (cond ...))
+      pred2 expr2)
+
+(for [x xs] (* x x)) ;; (loop [...
+
+(doseq [x xs] (println x)) ;; (loop [..
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (homoiconicity)
+-----
+### (= CODE DATA)
+---
+## meta-programming
+</script>
+</section>
+
 
     <section data-markdown><script type="text/template">
       ### Clojure

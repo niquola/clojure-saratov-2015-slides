@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<title>jocker.clj</title>
+<link rel="shortcut icon" href="favicon.png">
+
+<meta name="description" content="Slides for jocker conference">
+<meta name="author" content="Nikolay Ryzhikov">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="css/reveal.min.css">
+<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+<!-- For syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<style>
+.gold { color: gold !important; }
+.green { color: #6f6 !important; }
+.reveal pre { box-shadow: none; border-radius: 0.4em; box-shadow: 0.2em 0.2em 0.2em 0; }
+.reveal ul li {
+  color: #555;
+  font-size: 1.5em;
+  line-height: 1.3em;
+}
+.reveal hr {
+  border-color: red;
+}
+.reveal pre code {
+  font-size: 2em;
+  max-height: none;
+  background: black;
+  overflow: visible;
+}
+img {
+background: white !important;
+}
+.reveal pre {
+  max-height: none;
+  line-height: 2.4em;
+  padding: 1em;
+  background: black;
+  overflow: visible;
+}
+</style>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+if( window.location.search.match( /print-pdf/gi ) ) {
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = 'css/print/pdf.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+}
+</script>
+
+<!--[if lt IE 9]><script src="lib/js/html5shiv.js"></script><![endif]-->
+</head>
+
+<style>
+body {
+  background: white;
+}
+.reveal section img {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+.reveal {
+  color: #666;
+}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  color: #444;
+}
+.reveal .fa { font-family:FontAwesome; font-style: normal; }
+</style>
+
+<body>
+
+<div class="reveal">
+
+  <!-- Any section element inside of this container is displayed as a slide -->
+  <div class="slides">
+<section>
+  <h1>Clojure</h1>
+  <hr/>
+  <p>interactive development of<br/> interactive systems</p>
+  <p>
+  <small>by <a href="http://github.com/niquola">niquola</a></small>
+  </p>
+</section>
+
+<section>
+  <a href="http://health-samurai.ru">
+    <h3>
+      health
+      <img src="healthsamurai.png" style="width: 0.7em; border:none; background:transparent;box-shadow: none; display: inline; margin-bottom: -0em;"/>
+      samurai
+    </h3>
+  </a>
+  <hr/>
+  <h4>Nikolay Ryzhikov</h4>
+  <p>
+  <a href="http://github.com/niquola">
+    <i class="fa fa-github"></i>
+    <a href="http://twitter.com/niquola">
+      <i class="fa fa-twitter"></i>
+    </a>
+    <a href="https://plus.google.com/u/0/+%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B9%D0%A0%D1%8B%D0%B6%D0%B8%D0%BA%D0%BE%D0%B2">
+      <i class="fa fa-google-plus"></i>
+    </a>
+    <a href="https://www.facebook.com/nicola.ryzhikov">
+      <i class="fa fa-facebook"></i>
+    </a>
+    </p>
+    <img src="niquola.jpg" style="border:none; box-shado: none; background: transparent; width: 30%;"/>
+</section>
+
+<section>
+<img src="zoo.png"/>
+<hr/>
+<h2>Polyglot Programming</h2>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+![](clj.png)
+# (clojure)
+---
+## functional LISP
+### for concurency
+#### by Rich Hickey
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+```clojure
+(= (type nil) nil)
+
+(= (type 100) java.lang.Long)
+
+(= (type 0.1) java.lang.Double)
+
+(= (type "hi") java.lang.String)
+
+(= (type #"^a.*") java.util.regex.Pattern)
+
+(= (type :orange) clojure.lang.Keyword)
+
+(= (type 'apple) clojure.lang.Symbol)
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+```clojure
+(= (type '(1 2 3))
+   clojure.lang.PersistentList)
+
+(= (type [1 2 3])
+   clojure.lang.PersistentVector)
+
+(= (type {:a 1 :b 2})
+   clojure.lang.PersistentArrayMap)
+
+(= (type #{1 2 3})
+   clojure.lang.PersistentHashSet)
+```
+</script>
+</section>
+
+<section>
+<h3>Pure Functional DataStructures<h3>
+<hr/>
+<img src="persistent-dt.png" style="background: white;"/>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (ast)
+```javascript
+function myfn(x,y)  | ["function", "myfn",
+{                   |  ["x", "y"],
+  return            |   ["+",
+    x*x + y*y;      |    ["*", "x", "x"],
+}                   |    ["*", "y", "y"]]]
+                    |
+myfn(3,6)           | ["myfn", "3", "6"]
+
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (ast)
+
+```javascript
+["function", "myfn",  |  [function myfn
+ ["x", "y"],          |    [x y]
+ ["+",                |    [+
+   ["*", "x", "x"],   |      [* x x]
+   ["*", "y", "y"]]]  |      [* y y]]]
+                      |
+["myfn", "3", "6"]    |  [myfn 3 6]
+
+```
+</script></section>
+
+<section data-markdown><script type="text/template">
+## (hello clojure)
+```clojure
+[function myfn [x y]  |  (defn myfn [x y]
+  [+ [* x x]          |    (+ (* x x)
+     [* y y]]]        |       (* y y)))
+                      |
+[myfn 3 6]            |   (myfn 3 6)
+
+```
+</script>
+</section>
+
+<section data-markdown><script type="text/template">
+## punctuation
+```javascript
+function myfn(x,y){  | (defn myfn [x y]                |  ["x", "y"],
+ return  x*x + y*y;  |   (+ (* x x)
+};                   |      (* y y)))
+                     |
+myfn(3,6)            | (myfn 3 6)
+// 12 [{;,}]         | ;; 12 ([])
+
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (forms & s-expressions)
+```clojure
+(special-form args)
+
+(function-call args)
+
+(macros-call args)
+ ```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (special-forms)
+```clojure
+(def symbol init?)
+(if test then else?)
+(do exprs*)
+(let [bindings* ] exprs*)
+(quote form)
+(var symbol)
+(fn name? [params* ] exprs*)
+(loop [bindings* ] exprs*)
+(recur exprs*)
+(throw expr)
+(try expr* catch-clause* finally-clause?)
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (defn functions)
+```clojure
+(defn myfn [& args]
+  (reduce
+    #(+ %1 (* %2 %2)))
+    0 args))
+
+(myfn 1 2 3 4 5)
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (defmacro macros)
+```
+(defmacro unless [pred f1 f2]
+ `(if (not (~pred))
+    ~f1
+    ~f2))
+
+(unless (> 5 (rand 10))
+  "ok"
+  "not ok"))
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (most of useful forms)
+```clojure
+(defn myfn [args] body) ;; (def myfn (fn []..))
+
+(cond pred1 expr1  ;; (if pred1 expr (cond ...))
+      pred2 expr2)
+
+(for [x xs] (* x x)) ;; (loop [...
+
+(doseq [x xs] (println x)) ;; (loop [..
+```
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## (homoiconicity)
+-----
+### (= CODE DATA)
+---
+## meta-programming
+</script>
+</section>
+
+
+<section data-markdown>
+<script type="text/template">
+## (functional-programming)
+----
+### higher-order-function
+### pure-functions
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### (web?)
+```clojure
+(-> request
+  (parse HTTP text)
+  (coerce datatypes)
+  (fill data-transfer-obj)
+  (validate)
+  (fill domain-model)
+  (ORM)
+  (coerce datatypes)
+  (JDBC)
+  (put-in-db))
+```
+</script>
+</section>
+
+
+<section>
+<h1>live coding</h1>
+<hr/>
+<img style="width: 50%;" src="lcd.png" />
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## github.com/niquola
+---
+### ./joker-live-coding
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## summa
+---
+* expressiveness of LISP
+* power of functional programming
+* interactive development
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### more
+---
+* Transducers
+* Polymorphism
+* Software Transaction Memory
+* core.async & CSP
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### Books
+---
+* [SICP](http://mitpress.mit.edu/sicp/full-text/book/book.html)
+* [SICP in clojure](http://sicpinclojure.com/)
+* [CTM](http://www.amazon.com/Concepts-Techniques-Models-Computer-Programming/dp/0262220695)
+* [Clojure org](http://clojure.org/documentation)
+* [Programming Clojure](http://pragprog.com/book/shcloj/programming-clojure)
+* [Joy Of Clojure](http://joyofclojure.com/)
+* [Papers We Love](https://github.com/papers-we-love/papers-we-love)
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### Resources
+---
+
+* [Clojure Russia](https://plus.google.com/communities/114227952963737516047) G+
+* [Clojure Koans](https://github.com/functional-koans/clojure-koans)
+* [excercism.io](http://exercism.io/)
+* [Cognicast](http://www.cognitect.com/podcast)
+* [Planet of Clojure](http://planet.clojure.in/)
+  </script>
+</section>
+
+
+<section>
+<h1>Thx</h1>
+</section>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+controls: false,
+progress: true,
+history: true,
+center: true,
+margin: 0.03,
+width: '100%',
+width: '100%',
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+// Parallax scrolling
+// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+// parallaxBackgroundSize: '2100px 900px',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+  ]
+  });
+
+  </script>
+
+  </body>
+  </html>
