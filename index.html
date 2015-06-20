@@ -317,6 +317,12 @@ myfn(3,6)            | (myfn 3 6)
   </script>
   </section>
 
+  <section data-markdown><script type="text/template">
+## manipulate ast
+
+![](paredit.gif)
+  </script></section>
+
   <section data-markdown>
   <script type="text/template">
 ## (forms & s-expressions)
@@ -355,18 +361,33 @@ just lists
   <script type="text/template">
 ### (defn functions)
 ```clojure
-
-(defn inc [x] (+ 1 x))
+(defn inc [x] (+ 1 x)) ;; (def inc (fn [x] ..))
 (myfn 1 2)
 
-(defn name doc-string? attr-map? [params*] prepost-map? body)
-
 (defn bar
-  "doc string?"
-  ([a b] ...)
+  "doc string?" ;; embed doc
+  ([a b] ...)   ;; multi arity
   ([a b c] ...)
 
+(defn constrained-fn [f x]
+  {:pre  [(pos? x)]       ;; pre & post conditions
+   :post [(= % (* 2 x))]} ;; contracts
+  (f x))
+
+(defn myfn [{a :a}] ;; destructuring
+  ...)
+
 ```
+  </script>
+  </section>
+
+  <section data-markdown>
+  <script type="text/template">
+  ## (homoiconicity)
+  -----
+  ### (= CODE DATA)
+  ---
+  ## meta-programming
   </script>
   </section>
 
@@ -408,15 +429,6 @@ just lists
   </script>
   </section>
 
-  <section data-markdown>
-  <script type="text/template">
-  ## (homoiconicity)
-  -----
-  ### (= CODE DATA)
-  ---
-  ## meta-programming
-  </script>
-  </section>
 
     <section data-markdown><script type="text/template">
       ## Functional
@@ -601,29 +613,6 @@ fixed price cpu/memory
      ### Middleware
 
      ```js
-function handler(x){ return 1/x; }
-
-function wrap(fn){
- return function(x){
-    if(x == 0){ return null; }
-    else{ return fn(x); }
- }
-}
-
-var stack = wrap(handler);
-
-stack(1) => 1
-stack(2) => 1/2
-stack(0) => null
-     ```
-
-chain of responsibility
-    </script></section>
-
-    <section data-markdown><script type="text/template">
-     ### Middleware
-
-     ```js
 (defn handler [x] (/ 1 x))
 (defn wrap [f]
   (fn [x]
@@ -657,24 +646,220 @@ chain of responsibility
 
     </script></section>
 
-    <section data-markdown><script type="text/template">
-REPL driven
-    </script></section>
+ <section data-markdown>
+  <script type="text/template">
+## REPL driven development
+
+```clojure
+nREPL server started on 54903 port
+> (start sys)
+> (doc map)
+> (inspect sys)
+> (stop sys)
+> (run-tests)
+> (eval ...)
+```
+
+vim: [fireplace](https://github.com/tpope/vim-fireplace)
+  </script>
+</section>
 
     <section data-markdown><script type="text/template">
-Polymorphic fn
+## Polymorphism
+
+```clojure
+(into [1 2] [3 4])
+;=> [ 1 2 3 4]
+
+(into {:a 1 :b 2} {:c 4})
+;=> {:a 1 :b 2 :c 3}
+```
     </script></section>
+
+
+<section data-markdown><script type="text/template">
+## (protocols)
+
+```clojure
+(defprotocol Speaker (say [this]))
+
+(deftype Rubist [name]
+  Speaker
+  (say [this] "ruby"))
+
+(deftype Clojurist [name]
+  Speaker
+  (say [this] "clojure"))
+
+(for [x [(Rubyist "nicola") (Clojurist "nicola")]
+  (say x))
+
+```
+</script></section>
+
+ <section data-markdown>
+  <script type="text/template">
+## (multimethods)
+```clojure
+(defmulti encounter
+  (fn [x y]
+    [(:Species x) (:Species y)]))
+
+(defmethod encounter
+ [:Bunny :Lion] [b l]
+ :run-away)
+
+(defmethod encounter
+ [:Bunny :Bunny] [b l]
+ :sex)
+```
+  </script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+## Expression problem
+
+* add new type with fixed behavior
+* add behavior to existing type
+
+![](exp1.gif)
+![](exp2.gif)
+</script>
+</section>
+
+<section data-markdown><script type="text/template">
+## Expression problem
+
+```clojure
+(extend-protocol ICoerce
+
+  Date
+  (to-date-time [date]
+    (from-date date))
+
+  java.sql.Date
+  (to-date-time [sql-date]
+    (from-sql-date sql-date))
+
+  java.sql.Timestamp
+  (to-date-time [sql-time]
+    (from-sql-time sql-time)))
+```
+</script></section>
+
 
     <section data-markdown><script type="text/template">
 State & Identity
+
+![](state.svg)
     </script></section>
 
     <section data-markdown><script type="text/template">
-Interop
+![](state2.jpg)
     </script></section>
 
     <section data-markdown><script type="text/template">
-Rich
+* atom (uncoord; sync)
+* ref (coord; sync)
+* agent (uncoord; async)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+### atom
+
+```clj
+(def state (atom {}))
+
+(deref state) ;; or @state
+
+(swap! state (fn [old] (assoc old :key "val")))
+@state
+
+```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+### agent
+
+```clj
+(def counter (agent 0))
+
+@counter
+
+(send counter inc)
+
+;;(send counter (fn [old] (+ 1 old))
+
+@counter ;; may be 1
+
+```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+### refs & STM
+
+```clj
+(def account-a (ref 1000))
+(def account-b (ref 1000))
+
+;; transaction
+(dosync
+  (alter account-a + 100)
+  (alter account-b - 100))
+```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+### core.async (CSP)
+![](corea1.png)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+### core.async (CSP)
+![](corea2.png)
+    </script></section>
+
+
+    <section data-markdown><script type="text/template">
+### core.async
+```clj
+(let [c1 (upload "serious.jpg")
+      c2 (upload "fun.jpg")
+      c3 (upload "sassy.jpg")
+      [res chan] (alts!! [c1 c2 c3 (timeout 20)])]
+    (report res))
+```
+    </script></section>
+    <section data-markdown><script type="text/template">
+### Interop
+
+```clj
+(.toUpperCase "fred")
+(.getName String)
+(.-x (java.awt.Point. 1 2))
+(System/getProperty "java.vm.version")
+Math/PI
+```
+    </script></section>
+
+
+    <section data-markdown><script type="text/template">
+    ### Rich Hickey
+
+    ![](rich.jpg)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    ### Rich Hickey
+
+* Hammock Driven Development
+* Simple Made Easy
+* The Value of Values
+* The Language of the System
+* Design, Composition and Performance
+
+[best hits](https://changelog.com/rich-hickeys-greatest-hits/)
     </script></section>
 
 <section data-markdown>
@@ -687,7 +872,7 @@ Rich
 * [Clojure org](http://clojure.org/documentation)
 * [Programming Clojure](http://pragprog.com/book/shcloj/programming-clojure)
 * [Joy Of Clojure](http://joyofclojure.com/)
-* [Papers We Love](https://github.com/papers-we-love/papers-we-love)
+* ...
 </script>
 </section>
 
@@ -696,10 +881,12 @@ Rich
 ### Resources
 ---
 
-* [Clojure Slack](https://plus.google.com/communities/114227952963737516047) G+
+* [Clojure Slack](https://clojurians.slack.com/messages)
 * [Clojure Russia](https://plus.google.com/communities/114227952963737516047) G+
+* [Clojure FB](https://www.facebook.com/groups/clojure.course/)
 * [Clojure Koans](https://github.com/functional-koans/clojure-koans)
 * [excercism.io](http://exercism.io/)
+* [4clojure](https://www.4clojure.com/)
 * [Cognicast](http://www.cognitect.com/podcast)
 * [Planet of Clojure](http://planet.clojure.in/)
   </script>
