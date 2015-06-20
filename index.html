@@ -48,7 +48,7 @@ body {
   font-family: Fira;
   background: white !important;
   color: black;
-  padding: 30px;
+  /*padding: 30px;*/
   border: none !important;
   box-shadow: none !important;
 }
@@ -97,7 +97,92 @@ img {
     </script></section>
 
     <section data-markdown><script type="text/template">
+     Why learn yet another lang?
     </script></section>
+
+    <section data-markdown><script type="text/template">
+    ### Effectivnes
+    ----
+
+    do more with less
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     Why learn functional lang?
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    * simplicity
+    * expressivnes
+    * reuse
+    * reliability
+    * concurrency
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    ```js
+    var coll = [1, 2, 3, 4, 5, 6];
+    var acc = [];
+
+    for(var i = 0; i< coll.length && acc.length < 3; i++){
+     if(i%2 == 1){
+      acc.push(coll[i] + 1)
+     }
+    }
+
+    ```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    ```js
+    var inc = function(x){ return x + 1; }
+    var odd = function(x){ return x%2 == 1; }
+
+    acc = [1, 2, 3, 4, 5, 6].map(inc).filter(odd).take(2);
+    ```
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+     Which functional lang?
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    * haskell
+    * ocaml/F#
+    * erlang
+    * scala
+    * **clojure**
+    </script></section>
+
+
+    <section data-markdown><script type="text/template">
+      ### Clojure
+      ------
+
+      * Academi (AI)
+      * Enterprise (JVM)
+      * Hipster (Web)
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    ### How to start
+    ### with clojure?
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    1. presentation
+    1. read books
+    1. setup env
+    1. pet projects
+    1. introduce team
+    1. small projects
+    1. enjoy
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+    ### What is clojure?
+    </script></section>
+
 
     <section data-markdown><script type="text/template">
       1. functional
@@ -107,57 +192,73 @@ img {
       1. by Rich Hickey
     </script></section>
 
-<section data-markdown><script type="text/template">
-What is LISP?
-</script></section>
+  <section data-markdown><script type="text/template">
+  What is LISP?
+  </script></section>
 
-<section data-markdown><script type="text/template">
-```clojure
-(= (type nil) nil)
+  <section data-markdown><script type="text/template">
+  ### John MacCarthy 1958
 
-(= (type 100) java.lang.Long)
+  ---
+  * if
+  * garbage collection
+  * closure
+  * CLOS -> smalltalk
+  </script></section>
 
-(= (type 0.1) java.lang.Double)
+  <section data-markdown><script type="text/template">
+  * hardware abstracton - C
+  * math application - LISP
+  </script></section>
 
-(= (type "hi") java.lang.String)
+  <section data-markdown><script type="text/template">
+  ### primitives
 
-(= (type #"^a.*") java.util.regex.Pattern)
+  ```clojure
+  (= (type nil) nil)
 
-(= (type :orange) clojure.lang.Keyword)
+  (= (type 100) java.lang.Long)
 
-(= (type 'apple) clojure.lang.Symbol)
-```
-</script>
-</section>
+  (= (type 0.1) java.lang.Double)
 
-<section data-markdown>
-<script type="text/template">
-```clojure
-(= (type '(1 2 3))
-   clojure.lang.PersistentList)
+  (= (type "hi") java.lang.String)
 
-(= (type [1 2 3])
-   clojure.lang.PersistentVector)
+  (= (type #"^a.*") java.util.regex.Pattern)
 
-(= (type {:a 1 :b 2})
-   clojure.lang.PersistentArrayMap)
+  (= (type :orange) clojure.lang.Keyword)
 
-(= (type #{1 2 3})
-   clojure.lang.PersistentHashSet)
-```
-</script>
-</section>
+  (= (type 'apple) clojure.lang.Symbol)
+  ```
+  </script>
+  </section>
 
-<section>
-<h3>Pure Functional DataStructures<h3>
-<hr/>
-<img src="persistent-dt.png" style="background: white;"/>
-</section>
+  <section data-markdown>
+  <script type="text/template">
+  ```clojure
+  (= (type '(1 2 3))
+     clojure.lang.PersistentList)
 
-<section data-markdown>
-<script type="text/template">
+  (= (type [1 2 3])
+     clojure.lang.PersistentVector)
+
+  (= (type {:a 1 :b 2})
+     clojure.lang.PersistentArrayMap)
+
+  (= (type #{1 2 3})
+     clojure.lang.PersistentHashSet)
+  ```
+  </script>
+  </section>
+
+  <section data-markdown><script type="text/template">
+  Syntax?
+  </script></section>
+
+  <section data-markdown>
+  <script type="text/template">
+
 ### (ast)
-```javascript
+```js
 function myfn(x,y)  | ["function", "myfn",
 {                   |  ["x", "y"],
   return            |   ["+",
@@ -167,14 +268,15 @@ function myfn(x,y)  | ["function", "myfn",
 myfn(3,6)           | ["myfn", "3", "6"]
 
 ```
-</script>
-</section>
+  </script>
+  </section>
 
-<section data-markdown>
-<script type="text/template">
+  <section data-markdown>
+  <script type="text/template">
+
 ### (ast)
 
-```javascript
+```js
 ["function", "myfn",  |  [function myfn
  ["x", "y"],          |    [x y]
  ["+",                |    [+
@@ -184,10 +286,12 @@ myfn(3,6)           | ["myfn", "3", "6"]
 ["myfn", "3", "6"]    |  [myfn 3 6]
 
 ```
-</script></section>
+  </script></section>
 
-<section data-markdown><script type="text/template">
+  <section data-markdown><script type="text/template">
+
 ## (hello clojure)
+
 ```clojure
 [function myfn [x y]  |  (defn myfn [x y]
   [+ [* x x]          |    (+ (* x x)
@@ -196,13 +300,13 @@ myfn(3,6)           | ["myfn", "3", "6"]
 [myfn 3 6]            |   (myfn 3 6)
 
 ```
-</script>
-</section>
+  </script>
+  </section>
 
-<section data-markdown><script type="text/template">
+  <section data-markdown><script type="text/template">
 ## punctuation
 ```javascript
-function myfn(x,y){  | (defn myfn [x y]                |  ["x", "y"],
+function myfn(x,y){  | (defn myfn [x y]
  return  x*x + y*y;  |   (+ (* x x)
 };                   |      (* y y)))
                      |
@@ -210,11 +314,11 @@ myfn(3,6)            | (myfn 3 6)
 // 12 [{;,}]         | ;; 12 ([])
 
 ```
-</script>
-</section>
+  </script>
+  </section>
 
-<section data-markdown>
-<script type="text/template">
+  <section data-markdown>
+  <script type="text/template">
 ## (forms & s-expressions)
 ```clojure
 (special-form args)
@@ -223,11 +327,13 @@ myfn(3,6)            | (myfn 3 6)
 
 (macros-call args)
  ```
-</script>
-</section>
 
-<section data-markdown>
-<script type="text/template">
+just lists
+  </script>
+  </section>
+
+  <section data-markdown>
+  <script type="text/template">
 ## (special-forms)
 ```clojure
 (def symbol init?)
@@ -242,41 +348,52 @@ myfn(3,6)            | (myfn 3 6)
 (throw expr)
 (try expr* catch-clause* finally-clause?)
 ```
-</script>
-</section>
+  </script>
+  </section>
 
-<section data-markdown>
-<script type="text/template">
+  <section data-markdown>
+  <script type="text/template">
 ### (defn functions)
 ```clojure
-(defn myfn [& args]
-  (reduce
-    #(+ %1 (* %2 %2)))
-    0 args))
 
-(myfn 1 2 3 4 5)
+(defn inc [x] (+ 1 x))
+(myfn 1 2)
+
+(defn name doc-string? attr-map? [params*] prepost-map? body)
+
+(defn bar
+  "doc string?"
+  ([a b] ...)
+  ([a b c] ...)
+
 ```
-</script>
-</section>
+  </script>
+  </section>
 
-<section data-markdown>
-<script type="text/template">
+  <section data-markdown>
+  <script type="text/template">
 ## (defmacro macros)
 ```
+
 (defmacro unless [pred f1 f2]
- `(if (not (~pred))
-    ~f1
-    ~f2))
+  (list 'if (list 'not pred) f1 f2))
+
+(defmacro unless [pred f1 f2]
+ `(if (not (~pred)) ~f1 ~f2))
 
 (unless (> 5 (rand 10))
   "ok"
   "not ok"))
-```
-</script>
-</section>
 
-<section data-markdown>
-<script type="text/template">
+(if (not (> 5 (rand 10)))
+  "ok"
+  "not ok"))
+```
+  </script>
+  </section>
+
+  <section data-markdown>
+  <script type="text/template">
 ### (most of useful forms)
 ```clojure
 (defn myfn [args] body) ;; (def myfn (fn []..))
@@ -288,28 +405,18 @@ myfn(3,6)            | (myfn 3 6)
 
 (doseq [x xs] (println x)) ;; (loop [..
 ```
-</script>
-</section>
+  </script>
+  </section>
 
-<section data-markdown>
-<script type="text/template">
-## (homoiconicity)
------
-### (= CODE DATA)
----
-## meta-programming
-</script>
-</section>
-
-
-    <section data-markdown><script type="text/template">
-      ### Clojure
-      ------
-
-      * Academi
-      * Enterprise
-      * Hipster
-    </script></section>
+  <section data-markdown>
+  <script type="text/template">
+  ## (homoiconicity)
+  -----
+  ### (= CODE DATA)
+  ---
+  ## meta-programming
+  </script>
+  </section>
 
     <section data-markdown><script type="text/template">
       ## Functional
@@ -364,17 +471,17 @@ myfn(3,6)            | (myfn 3 6)
     </script></section>
 
     <section data-markdown><script type="text/template">
-      ```js
-      function fullName(first, middle, last){
-         return first
-         + (middle[0] ? ( ' ' + middle[0]) : '')
-         + ','
-         + last;
-      }
+```js
+function fullName(first, middle, last){
+   return first
+   + (middle[0] ? ( ' ' + middle[0]) : '')
+   + ','
+   + last;
+}
 
-      fullName('Nicola', 'Nikolaevich', 'Ryzhikov')
-      //=> Nicola N. Ryzhikov
-      ```
+fullName('Nicola', 'Nikolaevich', 'Ryzhikov')
+//=> Nicola N. Ryzhikov
+```
     </script></section>
 
     <section data-markdown><script type="text/template">
@@ -409,25 +516,23 @@ myfn(3,6)            | (myfn 3 6)
     </script></section>
 
     <section data-markdown><script type="text/template">
-      ### Копировать?
-      ```js
-      function myfn(somearray){
-         var copy = somearray.clone()
-         return copy.push('ups');
-      }
-      ```
+### Копировать?
+```js
+function myfn(somearray){
+   var copy = somearray.clone()
+   return copy.push('ups');
+}
+```
     </script></section>
 
     <section data-markdown><script type="text/template">
-      Иммутабельные, Персистентные
+Персистентные
 
-      структуры данных
+структуры данных O(1)
 
-      с гарантиями O(1)
+---
 
-      ```clojure
-      (assoc map :key "value")
-      ```
+fixed price cpu/memory
     </script></section>
 
     <section data-markdown><script type="text/template">
@@ -437,12 +542,10 @@ myfn(3,6)            | (myfn 3 6)
     </script></section>
 
     <section data-markdown><script type="text/template">
-     ### Let's use hash!
-    </script></section>
-
-    <section data-markdown><script type="text/template">
      ### Array Mapped Trie
      ![](naiv-hamt.svg)
+
+     #### node as array && hash as index
     </script></section>
 
     <section data-markdown><script type="text/template">
@@ -474,17 +577,23 @@ myfn(3,6)            | (myfn 3 6)
     </script></section>
 
     <section data-markdown><script type="text/template">
-     ### Работа с коллекциями
+### Работа с коллекциями
 
-     ```clojure
-     (map :name users) => ["nicola" "pavel" "marat"]
+```clojure
+(map :name users) => ["nicola" "pavel" "marat"]
 
-     (filter odd? (range 10)) => [1 3 5 7 9]
+(filter odd? (range 10)) => [1 3 5 7 9]
 
-     (reduce + 0 (range 100)) => 100
-     (reduce * 1 (range 10)) => 10!
-     (def map (fn [f coll] (reduce #(conj (f %)) [] coll)))
-     ```
+(reduce + 0 (range 100)) => 100
+(reduce * 1 (range 10)) => 10!
+
+(->> coll
+     (map inc)
+     (filter odd)
+     (take 5))
+
+(take 5 (filter odd (map inc coll)))
+```
 
     </script></section>
 
@@ -547,6 +656,54 @@ chain of responsibility
      ```
 
     </script></section>
+
+    <section data-markdown><script type="text/template">
+REPL driven
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+Polymorphic fn
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+State & Identity
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+Interop
+    </script></section>
+
+    <section data-markdown><script type="text/template">
+Rich
+    </script></section>
+
+<section data-markdown>
+<script type="text/template">
+### Books
+---
+* [SICP](http://mitpress.mit.edu/sicp/full-text/book/book.html)
+* [SICP in clojure](http://sicpinclojure.com/)
+* [CTM](http://www.amazon.com/Concepts-Techniques-Models-Computer-Programming/dp/0262220695)
+* [Clojure org](http://clojure.org/documentation)
+* [Programming Clojure](http://pragprog.com/book/shcloj/programming-clojure)
+* [Joy Of Clojure](http://joyofclojure.com/)
+* [Papers We Love](https://github.com/papers-we-love/papers-we-love)
+</script>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+### Resources
+---
+
+* [Clojure Slack](https://plus.google.com/communities/114227952963737516047) G+
+* [Clojure Russia](https://plus.google.com/communities/114227952963737516047) G+
+* [Clojure Koans](https://github.com/functional-koans/clojure-koans)
+* [excercism.io](http://exercism.io/)
+* [Cognicast](http://www.cognitect.com/podcast)
+* [Planet of Clojure](http://planet.clojure.in/)
+  </script>
+</section>
 
     <section>
       <h3>Thx</h3>
